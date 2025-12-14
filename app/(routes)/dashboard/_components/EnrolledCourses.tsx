@@ -11,7 +11,7 @@ const EnrolledCourses = () => {
       <h2 className="text-3xl mb-2 font-game">Your enrolled Courses</h2>
       {enrolledCourses?.length == 0 ? (
         <div className="flex flex-col items-center gap-3 p-7 border rounded-2xl bg-zinc-900">
-          <Image src="/books.png" alt="book" width={90} height={90} />
+          <Image src="/photo-book.png" alt="book" width={90} height={90} />
           <h2 className="font-game text-xl">
             You don't have aby enrolled courses
           </h2>

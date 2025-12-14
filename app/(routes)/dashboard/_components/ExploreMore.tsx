@@ -6,25 +6,25 @@ const ExplorMoreOptions = [
     id: 1,
     title: "Quizz Pack",
     desc: "Practice what you learned with bite-sized code challenges.",
-    icon: "/lightning-bolt.png",
+    icon: "/thinking.png",
   },
   {
     id: 2,
     title: "Video Courses",
     desc: "Learn with structured video lessons taught step-by-step.",
-    icon: "/game.png",
+    icon: "/robot.png",
   },
   {
     id: 3,
     title: "Community Project",
     desc: "Build real-world apps by collaborating with the community.",
-    icon: "/degree.png",
+    icon: "/tree.png",
   },
   {
     id: 4,
     title: "Explore Apps",
     desc: "Explore prebuild app which you can use directly.",
-    icon: "/degree.png",
+    icon: "/diary.png",
   },
 ];
 const ExploreMore = () => {
