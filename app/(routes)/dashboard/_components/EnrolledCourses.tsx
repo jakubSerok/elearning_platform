@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const EnrolledCourses = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
@@ -15,9 +16,12 @@ const EnrolledCourses = () => {
           <h2 className="font-game text-xl">
             You don't have aby enrolled courses
           </h2>
-          <Button variant="pixel" className="font-game text-lg" size={"lg"}>
-            Browser All courses
-          </Button>
+
+          <Link href={"/courses"}>
+            <Button variant="pixel" className="font-game text-lg" size={"lg"}>
+              Browser All courses
+            </Button>
+          </Link>
         </div>
       ) : (
         <div>List</div>
