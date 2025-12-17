@@ -45,10 +45,16 @@ const CourseStatus = ({ courseDetail }: Props) => {
           <h2 className="flex justify-between text-2xl ">
             Exercises{" "}
             <span className="text-gray-400">
-              {courseDetail?.courseEnrolledInfo?.xpEarned}/{counts?.totalExce}
+              {courseDetail?.completeExercises?.length}/{counts?.totalExce}
             </span>
           </h2>
-          <Progress value={37} className="mt-2" />
+          <Progress
+            value={UpdateProgress(
+              courseDetail?.completeExercises?.length ?? 0,
+              counts?.totalExce
+            )}
+            className="mt-2"
+          />
         </div>
       </div>
       <div className="flex items-center gap-5 mt-4">
