@@ -28,7 +28,11 @@ const CourseDetail = () => {
 
   return (
     <div>
-      <CourseDetailBanner loading={loading} courseDetail={courseDetail} />
+      <CourseDetailBanner
+        loading={loading}
+        courseDetail={courseDetail}
+        refreshData={() => GetCourseDetail()}
+      />
       <div className="grid grid-cols-3 gap-7 p-10 md:px-24 lg:px-36">
         <div className="col-span-2">
           <CourseChapters loading={loading} courseDetail={courseDetail} />
