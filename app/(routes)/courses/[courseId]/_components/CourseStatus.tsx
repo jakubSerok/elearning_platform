@@ -29,6 +29,13 @@ const CourseStatus = ({ courseDetail }: Props) => {
 
     setCounts({ totalExce: totalExercises, totalXp: totalXp });
   };
+  const UpdateProgress = (currentValue: number, totalValue: number) => {
+    if (currentValue && totalValue) {
+      const perc = (currentValue * 100) / totalValue;
+      return perc;
+    }
+    return 0;
+  };
   return (
     <div className="font-game p-4 border-4 rounded-2xl">
       <h2 className="text-3xl">Course Progress</h2>
@@ -37,7 +44,9 @@ const CourseStatus = ({ courseDetail }: Props) => {
         <div className="w-full">
           <h2 className="flex justify-between text-2xl ">
             Exercises{" "}
-            <span className="text-gray-400">1/{counts?.totalExce}</span>
+            <span className="text-gray-400">
+              {courseDetail?.courseEnrolledInfo?.xpEarned}/{counts?.totalExce}
+            </span>
           </h2>
           <Progress value={37} className="mt-2" />
         </div>
@@ -46,9 +55,18 @@ const CourseStatus = ({ courseDetail }: Props) => {
         <Image src="/star-glasses.png" width={50} height={50} alt="book" />
         <div className="w-full">
           <h2 className="flex justify-between text-2xl ">
-            XP Earned <span className="text-gray-400">1/{counts?.totalXp}</span>
+            XP Earned{" "}
+            <span className="text-gray-400">
+              {courseDetail?.courseEnrolledInfo?.xpEarned}/{counts?.totalXp}
+            </span>
           </h2>
-          <Progress value={37} className="mt-2" />
+          <Progress
+            value={UpdateProgress(
+              courseDetail?.courseEnrolledInfo?.xpEarned ?? 0,
+              counts?.totalXp
+            )}
+            className="mt-2"
+          />
         </div>
       </div>
     </div>
