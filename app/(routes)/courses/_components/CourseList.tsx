@@ -16,11 +16,17 @@ export type Course = {
   chapters?: Chapter[];
   userEnrolled?: boolean;
   courseEnrolledInfo?: CourseEnrolledInfo;
+  completeExercises?: CompleteExercises[];
 };
 
 type CourseEnrolledInfo = {
   xpEarned: number;
   enrolledDate: any;
+};
+type CompleteExercises = {
+  chapterId: number;
+  courseId: number;
+  exerciseId: number;
 };
 
 type Chapter = {
