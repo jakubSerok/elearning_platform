@@ -11,7 +11,7 @@ type Props = {
 const ContentSection = ({ courseExerciseData, loading }: Props) => {
   const ContentInfo = courseExerciseData?.exerciseData;
   return (
-    <div className="p-10 ">
+    <div className="p-10 mb-28">
       <h2> </h2>
       {loading || !courseExerciseData ? (
         <Skeleton className="h-full w-full m-10 rounded-2xl" />
