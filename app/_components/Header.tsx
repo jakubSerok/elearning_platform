@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { use } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
+import { useParams, usePathname } from "next/navigation";
 
 import {
   NavigationMenu,
@@ -77,48 +78,55 @@ const courses = [
 
 const Header = () => {
   const { user } = useUser();
-
+  const path = usePathname();
+  const { exerciseslug } = useParams();
   return (
     <div className="p-4 max-w-7xl flex justify-between items-center w-full">
       <div className="flex gap-2 items-center">
         <Image src="/logo.png" width={40} height={40} alt="logo" />
         <h2 className="font-bold text-3xl font-game">CodeBox</h2>
       </div>
-      <NavigationMenu>
-        <NavigationMenuList className=" gap-8">
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid grid-cols-2 gap-2 sm:w-[400px] md:w-[500px] lg:w-[600px]">
-                {courses.map((course, index) => (
-                  <div
-                    key={index}
-                    className="p-2 hover:bg-accent rounded-xl cursor-pointer"
-                  >
-                    <h2 className="font-medium">{course.name}</h2>
-                    <p className="text-xs text-gray-400">{course.desc}</p>
-                  </div>
-                ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink>
-              <Link href="/projects">Projects</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink>
-              <Link href="/pricing">Pricing</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink>
-              <Link href="/contact-us">Contact</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
+      {!exerciseslug ? (
+        <NavigationMenu>
+          <NavigationMenuList className=" gap-8">
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Courses</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className="grid grid-cols-2 gap-2 sm:w-[400px] md:w-[500px] lg:w-[600px]">
+                  {courses.map((course, index) => (
+                    <div
+                      key={index}
+                      className="p-2 hover:bg-accent rounded-xl cursor-pointer"
+                    >
+                      <h2 className="font-medium">{course.name}</h2>
+                      <p className="text-xs text-gray-400">{course.desc}</p>
+                    </div>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink>
+                <Link href="/projects">Projects</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink>
+                <Link href="/pricing">Pricing</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink>
+                <Link href="/contact-us">Contact</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+      ) : (
+        <h2 className="text-2xl">
+          {exerciseslug?.toString().replace("-", " ").toUpperCase()}
+        </h2>
+      )}
       {!user ? (
         <Link href="/sign-up">
           <Button className="font-game text-2xl" variant="pixel">
