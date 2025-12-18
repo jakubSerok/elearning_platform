@@ -1,18 +1,20 @@
 "use client";
 import { useParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import axios from "axios";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
 import { exercise } from "../../../_components/CourseList";
 import ContentSection from "./_components/ContentSection";
-
+import CodeEditor from "./_components/CodeEditor";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 export type CourseExercise = {
   chapterId: number;
   courseId: number;
   desc: string;
   name: string;
-  exercises: exercise;
+  exercises: exercise[]; // Changed from exercise to exercise[]
   exerciseData: ExerciseData;
   slug: string;
   xp: number;
@@ -40,6 +42,7 @@ const Playground = () => {
   const [courseExerciseDetail, setCourseExerciseDetail] =
     useState<CourseExercise>();
 
+  const [exerciseInfo, setExerciseInfo] = useState<exercise>();
   useEffect(() => {
     GetExerciseCourseDetail();
   }, []);
@@ -56,6 +59,23 @@ const Playground = () => {
     setLoading(false);
   };
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  useEffect(() => {
+    courseExerciseDetail && GetExerciseDetail();
+  }, [courseExerciseDetail]);
+
+  const GetExerciseDetail = () => {
+    const exerciseInfo = courseExerciseDetail?.exercises?.find(
+      (item) => item.slug === exerciseslug
+    );
+    setExerciseInfo(exerciseInfo);
+  };
   return (
     <div className="border-t-4 ">
       <SplitterLayout percentage primaryMinSize={40} secondaryInitialSize={60}>
@@ -65,8 +85,29 @@ const Playground = () => {
             loading={loading}
           />
         </div>
-        <div>Pane 2</div>
+        <div>
+          <CodeEditor
+            courseExerciseData={courseExerciseDetail}
+            loading={loading}
+          />
+        </div>
       </SplitterLayout>
+      <div className="font-game fixed bottom-0 w-full bg-zinc-900 p-5 flex gap-3 justify-between items-center">
+        <Button variant={"pixel"} className="text-xl">
+          Previous
+        </Button>
+        <div className="flex gap-2 items-center">
+          <Image src={"/star-glasses.png"} alt="start" width={40} height={40} />
+          <h2>
+            You can Earn{" "}
+            <span className="text-yellow-300 text-xl">{exerciseInfo?.xp}</span>{" "}
+            ep
+          </h2>
+        </div>
+        <Button variant={"pixel"} className="text-xl">
+          Next
+        </Button>
+      </div>
     </div>
   );
 };
