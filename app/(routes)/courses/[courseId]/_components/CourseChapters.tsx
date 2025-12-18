@@ -16,6 +16,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Link from "next/link";
 type Props = {
   loading: boolean;
   courseDetail: Course | undefined;
@@ -93,7 +94,18 @@ const CourseChapters = ({ loading, courseDetail }: Props) => {
                           indexExc,
                           chapter?.exercises?.length
                         ) ? (
-                          <Button variant={"pixel"}>{exc?.xp}xp</Button>
+                          <Link
+                            href={
+                              "/courses/" +
+                              courseDetail?.courseId +
+                              "/" +
+                              chapter?.chapterId +
+                              "/" +
+                              exc?.slug
+                            }
+                          >
+                            <Button variant={"pixel"}>{exc?.xp}xp</Button>
+                          </Link>
                         ) : isExerciseCompleted(
                             chapter?.chapterId,
                             indexExc + 1
