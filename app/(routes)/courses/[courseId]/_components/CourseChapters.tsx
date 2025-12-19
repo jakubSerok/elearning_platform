@@ -34,17 +34,18 @@ const CourseChapters = ({ loading, courseDetail }: Props) => {
       return chapterIndex === 0 && exerciseIndex === 0;
     }
 
-    // last completed
-    const last = completed[completed.length - 1];
+    // Get the last completed exercise
+    const last = completed[0];
 
-    // Convert to global exercise number
-    const currentExerciseNumber =
+    // Calculate current exercise's global position
+    const currentExerciseGlobal =
       chapterIndex * chapterExercisesLength + exerciseIndex + 1;
 
-    const lastCompletedNumber =
+    // Calculate last completed exercise's global position
+    const lastCompletedGlobal =
       (last.chapterId - 1) * chapterExercisesLength + last.exerciseId;
 
-    return currentExerciseNumber === lastCompletedNumber + 2;
+    return currentExerciseGlobal === lastCompletedGlobal + 1;
   };
 
   const isExerciseCompleted = (chapterId: number, ExerciseId: number) => {
@@ -53,6 +54,7 @@ const CourseChapters = ({ loading, courseDetail }: Props) => {
     const completeChapter = complateChapters?.find(
       (item) => item.chapterId === chapterId && item.exerciseId === ExerciseId
     );
+    console.log(completeChapter ? true : false);
     return completeChapter ? true : false;
   };
 
@@ -89,11 +91,14 @@ const CourseChapters = ({ loading, courseDetail }: Props) => {
                           <h2 className="text-2xl">{exc?.name} </h2>
                         </div>
 
-                        {EnableExercise(
-                          index,
-                          indexExc,
-                          chapter?.exercises?.length
+                        {isExerciseCompleted(
+                          chapter?.chapterId,
+                          indexExc + 1
                         ) ? (
+                          <Button variant={"pixel"} className="bg-green-600">
+                            Completed
+                          </Button>
+                        ) : courseDetail?.userEnrolled ? (
                           <Link
                             href={
                               "/courses/" +
@@ -106,13 +111,6 @@ const CourseChapters = ({ loading, courseDetail }: Props) => {
                           >
                             <Button variant={"pixel"}>{exc?.xp}xp</Button>
                           </Link>
-                        ) : isExerciseCompleted(
-                            chapter?.chapterId,
-                            indexExc + 1
-                          ) ? (
-                          <Button variant={"pixel"} className="bg-green-600">
-                            Completed
-                          </Button>
                         ) : (
                           <Tooltip>
                             <TooltipTrigger asChild>

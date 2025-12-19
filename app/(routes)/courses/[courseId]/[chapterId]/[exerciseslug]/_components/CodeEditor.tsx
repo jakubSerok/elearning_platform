@@ -19,7 +19,7 @@ type Props = {
   loading: boolean;
 };
 
-const CodeEditorChildren = ({ onCompleteExercise }: any) => {
+const CodeEditorChildren = ({ onCompleteExercise, IsCompleted }: any) => {
   const { sandpack } = useSandpack();
 
   return (
@@ -33,24 +33,27 @@ const CodeEditorChildren = ({ onCompleteExercise }: any) => {
         Run Code
       </Button>
       <Button
+        disabled={IsCompleted}
         onClick={() => onCompleteExercise()}
         variant={"pixel"}
         size={"lg"}
         className="bg-[#a3e534] text-xl"
       >
-        Mark Completed
+        {IsCompleted ? "Already Completed !" : "Mark Completed"}
       </Button>
     </div>
   );
 };
 const CodeEditor = ({ courseExerciseData, loading }: Props) => {
   const { exerciseslug } = useParams();
+  const exerciseIndex = courseExerciseData?.exercises?.findIndex(
+    (item) => item.slug == exerciseslug
+  );
 
+  const IsCompleted = courseExerciseData?.completedExercise?.find(
+    (item) => item?.exerciseId == Number(exerciseIndex) + 1
+  );
   const onCompleteExercise = async () => {
-    const exerciseIndex = courseExerciseData?.exercises?.findIndex(
-      (item) => item.slug == exerciseslug
-    );
-
     if (exerciseIndex == undefined) {
       return;
     }
@@ -102,7 +105,10 @@ const CodeEditor = ({ courseExerciseData, loading }: Props) => {
                   height: "100vh",
                 }}
               />
-              <CodeEditorChildren onCompleteExercise={onCompleteExercise} />
+              <CodeEditorChildren
+                onCompleteExercise={onCompleteExercise}
+                IsCompleted={IsCompleted}
+              />
             </div>
           </SplitterLayout>
         </SandpackLayout>
