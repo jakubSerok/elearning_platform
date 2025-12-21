@@ -17,11 +17,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 type Props = {
   loading: boolean;
   courseDetail: Course | undefined;
 };
 const CourseChapters = ({ loading, courseDetail }: Props) => {
+  const { has } = useAuth();
+  const hasUnlimitedAccess = has && has({ plan: "unlimited" });
   const EnableExercise = (
     chapterIndex: number,
     exerciseIndex: number,
@@ -71,10 +74,19 @@ const CourseChapters = ({ loading, courseDetail }: Props) => {
             <Accordion type="single" collapsible key={index}>
               <AccordionItem value={`item-${index}`}>
                 <AccordionTrigger className="p-3 hover:bg-zinc-800 font-game text-4xl">
-                  <div className="h-12 w-12  flex items-center justify-center rounded-full bg-zinc-800">
-                    {index + 1}
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center gap-3">
+                      <div className="h-12 w-12  flex items-center justify-center rounded-full bg-zinc-800">
+                        {index + 1}
+                      </div>
+                      {chapter?.name}
+                    </div>
+                    {!hasUnlimitedAccess && index >= 2 && (
+                      <h2 className="font-game text-3xl text-yellow-400">
+                        Pro
+                      </h2>
+                    )}
                   </div>
-                  {chapter?.name}
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="p-7 bg-zinc-900 rounded-xl">
@@ -99,18 +111,31 @@ const CourseChapters = ({ loading, courseDetail }: Props) => {
                             Completed
                           </Button>
                         ) : courseDetail?.userEnrolled ? (
-                          <Link
-                            href={
-                              "/courses/" +
-                              courseDetail?.courseId +
-                              "/" +
-                              chapter?.chapterId +
-                              "/" +
-                              exc?.slug
-                            }
-                          >
-                            <Button variant={"pixel"}>{exc?.xp}xp</Button>
-                          </Link>
+                          hasUnlimitedAccess || index < 2 ? (
+                            <Link
+                              href={
+                                "/courses/" +
+                                courseDetail.courseId +
+                                "/chapter/" +
+                                chapter?.chapterId +
+                                "/exercise/" +
+                                (indexExc + 1)
+                              }
+                            >
+                              <Button variant={"pixel"}>{exc?.xp}xp</Button>
+                            </Link>
+                          ) : (
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button variant={"pixelDisabled"}>🔒</Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="font-game text-lg">
+                                  Upgrade to Pro to unlock this exercise
+                                </p>
+                              </TooltipContent>
+                            </Tooltip>
+                          )
                         ) : (
                           <Tooltip>
                             <TooltipTrigger asChild>
