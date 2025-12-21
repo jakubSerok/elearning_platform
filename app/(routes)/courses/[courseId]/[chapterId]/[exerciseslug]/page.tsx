@@ -26,6 +26,7 @@ export type CourseExercise = {
   completedExercise: CompleteExercises[];
   slug: string;
   xp: number;
+  editorType: string;
 };
 
 type ExerciseData = {

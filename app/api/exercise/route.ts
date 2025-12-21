@@ -5,10 +5,15 @@ import {
   CourseChaptersTable,
   ExerciseTable,
   CompleteExercisesTable,
+  CoursesTable,
 } from "@/config/schema";
 export async function POST(req: NextRequest) {
   const { courseId, chapterId, exerciseId } = await req.json();
 
+  const courseInfo = await db
+    .select()
+    .from(CoursesTable)
+    .where(eq(CoursesTable.courseId, courseId));
   const courseResult = await db
     .select()
     .from(CourseChaptersTable)
@@ -43,5 +48,6 @@ export async function POST(req: NextRequest) {
     ...courseResult[0],
     exerciseData: exerciseResult[0],
     completedExercise: completedExercise,
+    editorType: courseInfo[0].editorType,
   });
 }
