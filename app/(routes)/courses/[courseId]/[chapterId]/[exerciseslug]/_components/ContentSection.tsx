@@ -22,7 +22,7 @@ const ContentSection = ({ courseExerciseData, loading }: Props) => {
           </h2>
           <div
             dangerouslySetInnerHTML={{
-              __html: ContentInfo?.exercisesContent?.content,
+              __html: ContentInfo?.exercisesContent?.content || "",
             }}
           />
           <div>
@@ -30,7 +30,7 @@ const ContentSection = ({ courseExerciseData, loading }: Props) => {
             <div
               className="p-4 border rounded-2xl bg-zinc-800"
               dangerouslySetInnerHTML={{
-                __html: ContentInfo?.exercisesContent?.task,
+                __html: ContentInfo?.exercisesContent?.task || "",
               }}
             />
           </div>
@@ -42,7 +42,7 @@ const ContentSection = ({ courseExerciseData, loading }: Props) => {
             <div
               className="p-4 border rounded-2xl bg-zinc-800"
               dangerouslySetInnerHTML={{
-                __html: ContentInfo?.exercisesContent?.hint,
+                __html: ContentInfo?.exercisesContent?.hint || "",
               }}
             />
           </div>
