@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     .values({
       courseId: courseId,
       userId: user?.primaryEmailAddress?.emailAddress,
-      xpEarnd: 0,
+      xpEarned: 0,
     })
     .returning();
 
