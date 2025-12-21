@@ -116,9 +116,9 @@ const CourseChapters = ({ loading, courseDetail }: Props) => {
                               href={
                                 "/courses/" +
                                 courseDetail.courseId +
-                                "/chapter/" +
+                                "/" +
                                 chapter?.chapterId +
-                                "/exercise/" +
+                                "/" +
                                 (indexExc + 1)
                               }
                             >
