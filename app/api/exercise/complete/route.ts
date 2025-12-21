@@ -34,7 +34,8 @@ export async function POST(req: NextRequest) {
     .update(usersTable)
     .set({
       points: sql`${usersTable.points}  + ${xpEarned}`,
-    })
+    }) //@ts-ignore
+
     .where(eq(usersTable.email, user?.primaryEmailAddress?.emailAddress));
 
   return NextResponse.json(result);

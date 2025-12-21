@@ -116,6 +116,8 @@ export async function GET(req: NextRequest) {
       .where(
         and(
           inArray(CompleteExercisesTable.courseId, courseIds),
+          //@ts-ignore
+
           eq(
             CompleteExercisesTable.userId,
             user?.primaryEmailAddress?.emailAddress
