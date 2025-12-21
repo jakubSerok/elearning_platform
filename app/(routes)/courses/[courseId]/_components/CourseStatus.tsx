@@ -51,7 +51,7 @@ const CourseStatus = ({ courseDetail }: Props) => {
           <Progress
             value={UpdateProgress(
               courseDetail?.completeExercises?.length ?? 0,
-              counts?.totalExce
+              counts?.totalExce || 0
             )}
             className="mt-2"
           />
@@ -69,7 +69,7 @@ const CourseStatus = ({ courseDetail }: Props) => {
           <Progress
             value={UpdateProgress(
               courseDetail?.courseEnrolledInfo?.xpEarned ?? 0,
-              counts?.totalXp
+              counts?.totalXp || 0
             )}
             className="mt-2"
           />
